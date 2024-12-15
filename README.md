@@ -9,3 +9,4 @@
 - ods：直接将原始数据（本来存储在hdfs的/orgin_date/ad/的文件夹）传到ad相关数仓中另一个文件夹/warehouse/ad/
 - ods到dim：将ods中的一些维度信息传入dim层，其中包含由广告信息，平台信息
 - dim到dwd：维度退化，将所用到的表合并成一张事实表
+- 由于hive计算依赖于mr，计算速度较慢，所以将hive在hdfs上的数据传入到列式存储的clickhouse中，方便后续的指标计算数据分析工作
