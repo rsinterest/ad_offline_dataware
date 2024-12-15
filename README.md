@@ -12,4 +12,5 @@
 - 由于hive计算依赖于mr，计算速度较慢，所以将hive在hdfs上的数据传入到列式存储的clickhouse中，方便后续的指标计算数据分析工作
 ### 2. ad_sql是数仓分层中，各分层的建表语句，以及装载数据的测试
 - 重点是dwd层的ip以及ua的解析，写了两个udf函数并使用，udf具体的编写在/ad_hive_udf目录
+- dwd层有一些异常曝光点击数据的过滤操作，比如同一ip/设备访问过快，同一ip/设备相同周期访问多次
 - mysql到hdfs用了dataX，dataX有自己的json编写格式，写了一个脚本按照mysql的表中字段自动生成json，目录在/datax_genjson
