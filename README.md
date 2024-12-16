@@ -14,3 +14,9 @@
 - 重点是dwd层的ip以及ua的解析，写了两个udf函数并使用，udf具体的编写在/ad_hive_udf目录
 - dwd层有一些异常曝光点击数据的过滤操作，比如同一ip/设备访问过快，同一ip/设备相同周期访问多次
 - mysql到hdfs用了dataX，dataX有自己的json编写格式，写了一个脚本按照mysql的表中字段自动生成json，目录在/datax_genjson
+### 3. 用Dophinshedule进行调度
+- 采用DS来对数据装载和处理过程进行调度，生成一个完整的DAG，主要用到的脚本文件在ad_scripts
+### 4. 一些思考
+- 因为基于MR的hive在计算过程中可能出现小文件处理问题，将其计算框架换成hive on spark，spark可以动态合并小文件，并且spark基于内存可以减少IO
+- 最后将数据从hive导入到clickhouse中，hive适用于批处理主要用于ETL过程，但是最后的dwd层中的事实表是为了方便下游进行数据分析或者一些可视化的看板操作，需要进行实时查询，做到秒级甚至毫秒级的查询，而clickhouse是列式存储，可以更好地适应下游数据分析操作
+- 其中dwd层的中事实表中事件发生时间的字段event_time为什么要用解析ua的url中的时间戳来确定
